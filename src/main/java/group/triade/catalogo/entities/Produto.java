@@ -54,4 +54,12 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+  public Admin getAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(Admin admin) {
+    this.admin = admin;
+  }
 }

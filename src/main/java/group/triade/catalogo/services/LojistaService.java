@@ -1,9 +1,9 @@
 package group.triade.catalogo.services;
 
-import group.triade.catalogo.dtos.AdminRequestDTO;
-import group.triade.catalogo.dtos.AdminResponseDTO;
-import group.triade.catalogo.entities.Admin;
-import group.triade.catalogo.repositories.AdminRepository;
+import group.triade.catalogo.dtos.LojistaRequestDTO;
+import group.triade.catalogo.dtos.LojistaResponseDTO;
+import group.triade.catalogo.entities.Lojista;
+import group.triade.catalogo.repositories.LojistaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,27 +13,27 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AdminService {
+public class LojistaService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private LojistaRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public AdminResponseDTO criar (AdminRequestDTO dto){
+    public LojistaResponseDTO criar (LojistaRequestDTO dto){
 
         var senha = passwordEncoder.encode(dto.senha());
 
-        Admin admin = new Admin();
-        admin.setNome(dto.nome());
-        admin.setEmail(dto.email());
-        admin.setSenha(senha);
+        Lojista lojista = new Lojista();
+        lojista.setNome(dto.nome());
+        lojista.setEmail(dto.email());
+        lojista.setSenha(senha);
 
-        Admin salvo = adminRepository.save(admin);
+        Lojista salvo = adminRepository.save(lojista);
 
-        return new AdminResponseDTO(
+        return new LojistaResponseDTO(
                 salvo.getNome(),
                 salvo.getEmail(),
                 salvo.getSenha()
@@ -43,22 +43,22 @@ public class AdminService {
 
 
 
-    public Optional<Admin> buscarPorEmail(String email) {
+    public Optional<Lojista> buscarPorEmail(String email) {
         String loginNorm = normalizarLogin(email);
         return Optional.ofNullable(adminRepository.findByEmail(loginNorm));
     }
 
 
-    public Admin criarUsuarioOAuth(String email, String nome) {
+    public Lojista criarUsuarioOAuth(String email, String nome) {
         String loginNorm = normalizarLogin(email);
 
         // Se já existir, retorna existente
-        Admin existente = adminRepository.findByEmail(loginNorm);
+        Lojista existente = adminRepository.findByEmail(loginNorm);
         if (existente != null) {
             return existente;
         }
 
-        Admin novo = new Admin();
+        Lojista novo = new Lojista();
         novo.setEmail(loginNorm);
         novo.setNome(nome);
 

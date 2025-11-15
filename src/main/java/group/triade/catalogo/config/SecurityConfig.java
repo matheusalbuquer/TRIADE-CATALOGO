@@ -35,11 +35,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // ---- Endpoints públicos ----
-                        .requestMatchers(HttpMethod.POST, "/admin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // CORS preflight
 
                         // ---- Endpoints protegidos ----
+                        .requestMatchers("/lojista/**").permitAll()
                         .requestMatchers("/produto/**").authenticated()
 
                         // ---- Qualquer outro endpoint (opcional) ----

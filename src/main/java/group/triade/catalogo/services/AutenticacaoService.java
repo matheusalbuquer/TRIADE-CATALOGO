@@ -3,8 +3,8 @@ package group.triade.catalogo.services;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import group.triade.catalogo.dtos.AuthRequestDTO;
-import group.triade.catalogo.entities.Admin;
-import group.triade.catalogo.repositories.AdminRepository;
+import group.triade.catalogo.entities.Lojista;
+import group.triade.catalogo.repositories.LojistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,24 +19,24 @@ import java.time.ZoneOffset;
 public class AutenticacaoService implements UserDetailsService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private LojistaRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Admin usuario = adminRepository.findByEmail(login);
+        Lojista usuario = adminRepository.findByEmail(login);
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
         return usuario;
     }
 
-    public String gerarTokenJWT(Admin admin) {
+    public String gerarTokenJWT(Lojista lojista) {
         try {
             Algorithm algorithm = Algorithm.HMAC256("my-secret");
 
             return JWT.create()
                     .withIssuer("itapissuma")
-                    .withSubject(admin.getEmail())
+                    .withSubject(lojista.getEmail())
                     .withExpiresAt(gerarDataExpiracao())
                     .sign(algorithm);
         } catch (Exception exception) {
@@ -45,11 +45,11 @@ public class AutenticacaoService implements UserDetailsService {
     }
 
     public String obterToken(AuthRequestDTO authDto) {
-        Admin usuario = adminRepository.findByEmail(authDto.email());
-        if (usuario == null) {
+        Lojista lojista = adminRepository.findByEmail(authDto.email());
+        if (lojista == null) {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
-        return gerarTokenJWT(usuario);
+        return gerarTokenJWT(lojista);
     }
 
     public String validaToken(String token) {

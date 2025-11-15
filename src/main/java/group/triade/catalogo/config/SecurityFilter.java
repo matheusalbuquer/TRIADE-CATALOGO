@@ -1,8 +1,8 @@
 package group.triade.catalogo.config;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import group.triade.catalogo.entities.Admin;
-import group.triade.catalogo.repositories.AdminRepository;
+import group.triade.catalogo.entities.Lojista;
+import group.triade.catalogo.repositories.LojistaRepository;
 import group.triade.catalogo.services.AutenticacaoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private AutenticacaoService autenticacaoService;
 
     @Autowired
-    private AdminRepository adminRepository;
+    private LojistaRepository adminRepository;
 
     private Algorithm jwtAlg = Algorithm.HMAC256("my-secret");
 
@@ -46,11 +46,11 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             String login = autenticacaoService.validaToken(token);
-            Admin admin = adminRepository.findByEmail(login);
+            Lojista lojista = adminRepository.findByEmail(login);
 
-            if (admin != null) {
+            if (lojista != null) {
                 var autentication = new UsernamePasswordAuthenticationToken(
-                        admin, null, admin.getAuthorities());
+                        lojista, null, lojista.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(autentication);
             }
         }

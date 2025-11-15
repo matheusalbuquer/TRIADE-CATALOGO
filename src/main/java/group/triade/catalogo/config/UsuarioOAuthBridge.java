@@ -2,8 +2,8 @@ package group.triade.catalogo.config;
 
 
 
-import group.triade.catalogo.services.AdminService;
 import group.triade.catalogo.services.AutenticacaoService;
+import group.triade.catalogo.services.LojistaService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,19 +14,19 @@ import org.springframework.stereotype.Service;
 public class UsuarioOAuthBridge {
 
     private final AutenticacaoService jwtTokenService; // OU AutenticacaoService que já gera token
-    private final AdminService usuarioService;   // OU AdminService/PacienteService, conforme seu domínio
+    private final LojistaService lojistaService;   // OU AdminService/PacienteService, conforme seu domínio
 
-    public UsuarioOAuthBridge(AutenticacaoService jwtTokenService, AdminService usuarioService) {
+    public UsuarioOAuthBridge(AutenticacaoService jwtTokenService, LojistaService lojistaService) {
         this.jwtTokenService = jwtTokenService;
-        this.usuarioService = usuarioService;
+        this.lojistaService = lojistaService;
     }
 
     public String provisionarUsuarioEGerarJwt(String email, String nome) {
         // 1) Buscar usuário por e-mail; se não existir, criar com ROLE_USER (ou conforme sua regra)
-        var usuario = usuarioService.buscarPorEmail(email)
-                .orElseGet(() -> usuarioService.criarUsuarioOAuth(email, nome));
+        var lojista = lojistaService.buscarPorEmail(email)
+                .orElseGet(() -> lojistaService.criarUsuarioOAuth(email, nome));
 
         // 2) Gerar JWT da sua aplicação (mesmo formato usado no /auth)
-        return jwtTokenService.gerarTokenJWT(usuario); // retorna string do JWT
+        return jwtTokenService.gerarTokenJWT(lojista); // retorna string do JWT
     }
 }

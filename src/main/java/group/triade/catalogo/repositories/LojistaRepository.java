@@ -1,13 +1,11 @@
 package group.triade.catalogo.repositories;
 
 import group.triade.catalogo.entities.Lojista;
-import group.triade.catalogo.entities.Produto;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Pageable;
-
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface LojistaRepository extends JpaRepository<Lojista, Long> {
 
 
+     Lojista findByEmail (String email);
 }

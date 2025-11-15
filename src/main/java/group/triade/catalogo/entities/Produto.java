@@ -13,13 +13,17 @@ public class Produto {
 
     private String nome;
 
-    private String preco;
+    private String imgUrl;
+
+    private BigDecimal preco;
+
+    private String categoria;
 
     private String descricao;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+    @JoinColumn(name = "id_lojista")
+    private Lojista lojista;
 
 
 
@@ -39,12 +43,36 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getPreco() {
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Lojista getLojista() {
+        return lojista;
+    }
+
+    public void setLojista(Lojista lojista) {
+        this.lojista = lojista;
+    }
+
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(String preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getDescricao() {
@@ -55,11 +83,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-  public Admin getAdmin() {
-    return admin;
+  public Lojista getAdmin() {
+    return lojista;
   }
 
-  public void setAdmin(Admin admin) {
-    this.admin = admin;
+  public void setAdmin(Lojista admin) {
+    this.lojista = lojista;
   }
 }

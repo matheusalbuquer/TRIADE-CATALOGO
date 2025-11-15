@@ -1,9 +1,11 @@
 package group.triade.catalogo.dtos.produto;
 
+import java.math.BigDecimal;
+
 public record ProdutoRequestDTO (String nome,
-                                 String preco,
+                                 BigDecimal preco,
                                  String descricao,
                                  //Admin
-                                 Long adminId
+                                 Long lojistaId
 ) {
 }

@@ -6,6 +6,7 @@ import group.triade.catalogo.entities.Lojista;
 import group.triade.catalogo.repositories.LojistaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class LojistaService {
 
     @Autowired
-    private LojistaRepository adminRepository;
+    private LojistaRepository lojistaRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -31,7 +32,7 @@ public class LojistaService {
         lojista.setEmail(dto.email());
         lojista.setSenha(senha);
 
-        Lojista salvo = adminRepository.save(lojista);
+        Lojista salvo = lojistaRepository.save(lojista);
 
         return new LojistaResponseDTO(
                 salvo.getNome(),
@@ -43,9 +44,10 @@ public class LojistaService {
 
 
 
+
     public Optional<Lojista> buscarPorEmail(String email) {
         String loginNorm = normalizarLogin(email);
-        return Optional.ofNullable(adminRepository.findByEmail(loginNorm));
+        return Optional.ofNullable(lojistaRepository.findByEmail(loginNorm));
     }
 
 
@@ -53,7 +55,7 @@ public class LojistaService {
         String loginNorm = normalizarLogin(email);
 
         // Se já existir, retorna existente
-        Lojista existente = adminRepository.findByEmail(loginNorm);
+        Lojista existente = lojistaRepository.findByEmail(loginNorm);
         if (existente != null) {
             return existente;
         }
@@ -71,7 +73,7 @@ public class LojistaService {
         novo.setSenha(passwordEncoder.encode(senhaRandom));
 
 
-        return adminRepository.save(novo);
+        return lojistaRepository.save(novo);
     }
 
     // =========================

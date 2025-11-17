@@ -20,6 +20,7 @@ public class Lojista implements UserDetails {
 
     private String senha;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Permissão padrão — você pode mudar pra ROLE_USER ou ROLE_SUPERADMIN se quiser

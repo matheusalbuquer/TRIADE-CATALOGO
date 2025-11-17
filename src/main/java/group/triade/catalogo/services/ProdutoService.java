@@ -85,6 +85,31 @@ public class ProdutoService {
   }
 
 
+
+  @Transactional
+  public void deletar(Long id){
+    String login = SecurityContextHolder.getContext()
+      .getAuthentication()
+      .getName();
+
+    Lojista lojista = lojistaRepository.findByEmail(login);
+
+    if (lojista == null) {
+      throw new IllegalStateException("Usuário não encontrado");
+    }
+
+    Produto produto = produtoRepository.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+
+    // Verifica se o produto pertence ao lojista logado
+    if (!produto.getLojista().getId().equals(lojista.getId())) {
+      throw new IllegalStateException("Você não tem permissão para excluir este produto");
+    }
+
+    produtoRepository.delete(produto);
+  }
+
+
   private String salvarImagemLocal(MultipartFile file, String subpasta) {
     try {
       // valida mime

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('./header.css');
+
+:root {
+    --color-bg-1: #fff;
+    --color-bg-2: #1e1e1e;
+    --color-main: #FEC919;
+}
+
+* {
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Karla', sans-serif;
+}
+
+body {
+    background-color: var(--color-bg-1);
+
+}
+
+form{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+from input, form label, form button{margin-top:1rem;}
+
+form button{
+cursor:pointer;
+width: 200px;
+}
